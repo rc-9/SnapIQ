@@ -46,25 +46,46 @@ This project targets tree-based learning methods of increasing sophistication:
 - **Gradient Boosting**: for sequential learning from residual errors
 - **XG-Boost**: an optimized gradient-boosting framework with built-in regularization and parallelization for runtime efficiency
 
-Each model is trained on a shared feature set, with hyperparameters tuned to balance predictive performance, interpretability, and speed, in order to reflect the constraints of a live-game decision support system. A season-based train/test split is used to ensure realistic evaluation and prevent information leakage. Rather than optimizing purely for accuracy, this project prioritizes practical deployability.
+Each model is trained on a shared feature set, with hyperparameters tuned to balance predictive performance, interpretability, and speed, in order to reflect the constraints of a live-game decision support system. The chart below illustrates the values tested and the selected configuration for the XG-Boost model:
+
+![hyperparamaters](utils/hyperparamaters.png)
+
+A season-based train/test split is used to ensure realistic evaluation and prevent information leakage. Rather than optimizing purely for accuracy, this project prioritizes practical deployability.
 
 To mirror real-world usage, SnapIQ extends beyond batch modeling into a simulated streaming environment (on **Databricks**), where sequential game data is processed in order. A **Random Forest** model is applied in this phase to evaluate trade-offs in performance, latency, and operational feasibility. The result is a lightweight predictor capable of informing coaching preparation, defensive alignment, and game-planning workflows, while laying the groundwork for more advanced real-time applications in the future.
 <br/>
 
 #### Key Findings
 
-- Tree-based ensembles substantially outperform single decision trees, capturing non-linear interactions between the situational variables 
+**1. Tree-based ensembles substantially outperform single decision trees, capturing non-linear interactions between the situational variables.**
 
-- Field position, down, and distance to first down emerge as the most influential features
+The figure below shows the structure of a simple decision tree, followed by a sample portion of a single tree from the final iteration of a boosted model. This contrast illustrates the increased complexity of boosted models in order to capture nuanced interactions between features.
 
-- Predictive accuracy plateaus quickly when restricted to pre-snap situational data, highlighting the inherent uncertainty in play-calling and the limits of prediction without personnel, formation, or coverage information
+Simple decision tree model:
 
-- XG-Boost offers the best accuracy–runtime tradeoff among the evaluated models, making it well-suited for real-time decision-support scenarios
+![singledectree](utils/singledectree.png)
 
-- Season-based evaluation confirms stable generalization, suggesting that play-calling tendencies are learnable across years, even as teams and personnel change
+Sample portion of a single iteration of a boosted tree model:
 
-- Distributed pipelines in a simulated streaming environment can add operational value even when accuracy gains are marginal
+![boostedtree](utils/boostedtree.png)
 
+
+**2. Field position, down, and the distance to first down emerge as the most influential factors.**
+
+During feature-importance analysis, these pre-snap situational variables consistently drove model decisions, confirming that fundamental game context strongly shapes play selection. Further breakdown by down revealed how accuracy can be skewed in predictable situations, such as obvious punts on long 4th downs.
+
+**3. XG-Boost offers the best accuracy–runtime tradeoff among the evaluated models, making it well-suited for real-time decision-support scenarios.**
+
+However, it is important to note that predictive accuracy plateaus quickly when restricted to pre-snap situational data, highlighting the inherent uncertainty in play-calling and the limits of prediction without personnel, formation, or coverage information. Even with advanced ensemble models, limiting inputs to pre-snap context caps performance, reflecting the strategic and stochastic nature of NFL play-calling. A more detailed, multi-class breakdown of accuracy, precision, and error rates was also explored to better understand the strengths and limitations of these models across each play type.
+
+![comparingmodels](utils/comparingmodels.png)
+
+
+**4. Season-based evaluation confirms stable generalization, suggesting that play-calling tendencies are learnable across years, even as teams and personnel change.**
+
+**5. Distributed pipelines in a simulated streaming environment can add operational value even when accuracy gains are marginal.**
+
+By enabling sequential inference on season-long data, these pipelines demonstrate the feasibility of near real-time decision support for coaching and game planning.
 
 #### Conclusions
 
