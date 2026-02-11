@@ -101,11 +101,11 @@ However, play prediction remains a challenging multi-class classification task, 
 
 ## Usage
 
-- ```4442_NFLClassification.R```: Runs the full offline modeling pipeline: data preparation, feature engineering, model training, and evaluation for decision trees, gradient boosting, and XG-Boost.
+- ```4442_NFLClassification.R```: Runs the full offline modeling pipeline: data preparation, feature engineering, model training, and evaluation for decision trees, gradient boosting, and XG-Boost
 
-- ```4442_NFLClassification.Rmd```: Annotated walkthrough of the modeling pipeline with visuals, intermediate results, and supporting discussion / technical reasoning (feature selection, model choice, evaluation strategy, etc.).
+- ```4442_NFLClassification.Rmd```: Annotated walkthrough of the modeling pipeline with visuals, intermediate results, and supporting discussion / technical reasoning (feature selection, model choice, evaluation strategy, etc.)
 
-- ```simulated_stream_predictor.py```: Simulates real-time streaming by sequentially ingesting season-ordered game data and applying a trained model, highlighting operational considerations such as latency, feature consistency, and inference stability.
+- ```simulated_stream_predictor.py```: Simulates real-time streaming by sequentially ingesting season-ordered game data and applying a trained model, highlighting operational considerations such as latency, feature consistency, and inference stability
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
